@@ -1,19 +1,23 @@
 package model;
 
+import controller.MapController;
 import middleware.Check;
 
 public class AiPlayer extends Player {
     Map map;
     int depth = 1;
+    MapController mapController;
 
-    public AiPlayer(Map map, int depth) {
+    public AiPlayer(Map map, int depth, MapController mapController) {
         super();
         this.choice = Block.O;
         this.map = map;
         this.depth = depth;
+        this.mapController = mapController;
     }
 
     public void play() {
+        this.choice = Block.O;
         int bestScore = (this.choice == Block.O) ? 10000 : -10000;
         int cursor = 0;
         int move = 0;
@@ -36,7 +40,7 @@ public class AiPlayer extends Player {
             }
             cursor++;
         }
-        map.setBlock(this.choice, move / 3, move % 3);
+        mapController.play(this.choice, move / 3, move % 3);
     }
 
     private int minimax(Map map, int depth, int alpha, int beta, boolean isMaximizing) {
